@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Изменить товар</title>
+{% endblock %}
+
+{% block header %}
+    <h1 align='center' class="display-4">ИЗМЕНИТЬ ТОВАР</h1>
+{% endblock %}
+
+{% block nav %}
+    <a href="{% url 'home' %}"><button type="button" class="btn btn-secondary"> Главная </button></a>
+    <a href="{% url 'about' object.pk %}"><button type="button" class="btn btn-danger"> Назад </button></a>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" value="Update">Обновить</button>
+</form>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

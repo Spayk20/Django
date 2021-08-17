@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Магазин</title>
+{% endblock %}
+
+{% block header %}
+	<h1 align="center" class="display-4">МАГАЗИН</h1>
+{% endblock %}
+
+{% block nav %}
+    {% if not request.user.is_authenticated %}
+        <a href="{% url 'login' %}"><button type="button" class="btn btn-success">Войти</button></a>
+        <a href="{% url 'register' %}"><button type="button" class="btn btn-warning"> Зарегистрироваться </button></a>
+    {% else %}
+        <a href="{% url 'profile' request.user.pk %}"><button class="btn btn-info"> {{ request.user }} </button></a>
+        <a href="{% url 'logout' %}"><button class="btn btn-danger"> Выйти </button></a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% for product in object_list %}
+        <hr>
+        <div align="center">
+            <a href="{% url 'about' product.pk %}"  class="btn btn-outline-success"> {{ product.name }} </a> <br>
+            Цена: {{ product.price }} денег<br>
+            {% if product.count > 0 %}
+                Количество на складе: {{ product.count }}
+            {% else %}
+                <span class="btn btn-danger">Нет в наличии</span>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

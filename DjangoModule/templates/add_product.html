@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Add product</title>
+{% endblock %}
+
+{% block header %}
+    <h1 align="center" class="display-4">ДОБАВИТЬ ТОВАР</h1>
+{% endblock %}
+
+{% block nav %}
+    <a href="{% url 'profile' request.user.pk %}"><button class="btn btn-secondary"> Назад </button></a>
+{% endblock %}
+
+{% block content %}
+    <div align="center">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Добавить</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

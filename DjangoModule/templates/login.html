@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Login</title>
+{% endblock %}
+
+{% block header %}
+	<h1 align="center" class="display-4"> ВОЙТИ </h1>
+{% endblock %}
+
+{% block nav %}
+	{% if not request.user.is_authenticated %}
+
+		<span> Еще не зарегистрирован? <a href="{% url 'register' %}"><button type="button" class="btn btn-warning"> Зарегистрироваться </button></a></span>
+	{% else %}
+		<a href="{% url 'logout' %}"><button> Выйти </button></a>
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	{% if not request.user.is_authenticated %}
+		<div align="center">
+		<form method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Войти" class="btn btn-success">
+		</form>
+		</div>
+	{% else %}
+		Вы уже зарегистрированы как: {{request.user}}
+	{% endif%}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>Товар</title>
+{% endblock %}
+
+{% block header %}
+    <h1 align="center" class="display-4">КОРЗИНА</h1>
+
+{% endblock %}
+
+{% block nav %}
+    <a href="{% url 'home' %}"><button type="button" class="btn btn-secondary"> Главная </button></a>
+    <a href="{% url 'home' %}"><button type="button" class="btn btn-danger"> Назад </button></a>
+{% endblock %}
+
+{% block content %}
+    <div align="center">
+        <div class="alert alert-success" role="alert">{{ object.name }}</div>
+        <div class="alert alert-info" role="alert">
+        Описание: {{ object.about }}<br>
+        Цена: {{ object.price }} денег<br>
+        </div>
+        {% if object.count > 0 %}
+            Количество на складе: {{ object.count }}
+        {% else %}
+            <div class="alert alert-danger" role="alert">Нет в наличии</div>
+        {% endif %}
+        {% if request.user.is_superuser %}<br>
+            <a href="{% url 'change_product' object.pk %}"><button> Изменить товар </button></a>
+        {% elif request.user.is_authenticated %}
+
+                {% if object.count > 0 %}
+                    <form method="post" action="{% url 'buy_product' object.pk %}">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" value="Buy" class="btn btn-success">Купить</button>
+                    </form>
+                {% endif %}
+        {% endif %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == "error" %}
+                    <li style= "color:red;">
+                        {{ message }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
